@@ -23,6 +23,9 @@ EXPOSE 8083
 # HTTP API
 EXPOSE 8086
 
+# StatsD UDP port (incoming metrics from our btcd node).
+EXPOSE 8125/udp
+
 # HTTPS API
 #EXPOSE 8084
 
