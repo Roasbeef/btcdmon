@@ -38,6 +38,4 @@ EXPOSE 8125/udp
 # Time series data will be stored here.
 VOLUME ["/data"]
 
-USER daemon
-
 CMD ["/run.sh"]
