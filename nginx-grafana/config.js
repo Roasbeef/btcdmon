@@ -5,7 +5,7 @@ function (Settings) {
     datasources: {
       influxdb: {
         type: 'influxdb',
-        url: "http://influxdb/db/btcd",
+        url: "/db/btcd",
         username: 'btcdmon',
         password: 'DB_PASSWORD',
       },
