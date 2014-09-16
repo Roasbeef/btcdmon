@@ -7,10 +7,10 @@ GRAFANA_URL=http://grafanarel.s3.amazonaws.com/$GRAFANA_PKG
 # Download the latest grafana version
 wget $GRAFANA_URL
 tar xvfz $GRAFANA_PKG
-cp $GRAFANA_VER/* .
-rm $GRAFANA_VER
+cp -r $GRAFANA_VER/* .
+rm -r $GRAFANA_VER
 
 rm config.sample.js
 
 # Replace placeholder with actual password from container linking.
-sed -i 's/DB_PASSWORD/$INFLUXDB_ENV_INFLUXDB_DEFAULT_DB_PASSWORD/g' config.js
+sed -i 's/DB_PASSWORD/${INFLUXDB_ENV_INFLUXDB_DEFAULT_DB_PASSWORD}/g' config.js
