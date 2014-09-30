@@ -29,4 +29,7 @@ WORKDIR /
 
 EXPOSE 80 443
 
-ENTRYPOINT ["/usr/sbin/nginx"]
+ADD run.sh /run.sh
+RUN chmod +x /*.sh
+
+CMD ["/run.sh"]
