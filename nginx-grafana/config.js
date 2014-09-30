@@ -5,9 +5,16 @@ function (Settings) {
     datasources: {
       influxdb: {
         type: 'influxdb',
-        url: "/db/btcd",
+        url: '/db/btcd',
         username: 'btcdmon',
         password: 'DB_PASSWORD',
+      },
+      grafana_db: {
+          type: 'influxdb',
+          url: '/db/grafana',
+          username: 'btcdmon',
+          password: 'DB_PASSWORD',
+          grafanaDB: true,
       },
     },
 

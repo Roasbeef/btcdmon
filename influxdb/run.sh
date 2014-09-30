@@ -47,51 +47,55 @@ else
     fi
 fi
 
-if [ "${INFLUXDB_DEFAULT_DB_NAME}" == "**None**" ]; then
-    echo "=> No default database name supplied: no database will be created."
-else
-    curl -s "http://localhost:8086/db?u=root&p=${INFLUXDB_ROOT_PASSWORD}" | grep -q "\"name\":\"${INFLUXDB_DEFAULT_DB_NAME}\""
-    if [ $? -eq 0 ]; then
-        echo "=> Database \"${INFLUXDB_DEFAULT_DB_NAME}\" already exists: nothing to do."
+dbs_to_create=("grafana" "${INFLUXDB_DEFAULT_DB_NAME}")
+for db_to_create in "${dbs_to_create[@]}"; do
+    if [ $dbs_to_create == "**None**" ]; then
+        echo "=> No default database name supplied: no database will be created."
+        continue
     else
-        echo "=> Creating database: ${INFLUXDB_DEFAULT_DB_NAME}"
-        STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "http://localhost:8086/db?u=root&p=${INFLUXDB_ROOT_PASSWORD}" -d "{\"name\":\"${INFLUXDB_DEFAULT_DB_NAME}\"}")
-        if test $STATUS -eq 201; then
-            echo "=> Database \"${INFLUXDB_DEFAULT_DB_NAME}\" successfully created."
-        else
-            echo "=> Failed to create database \"${INFLUXDB_DEFAULT_DB_NAME}\"!"
-            echo "=> Program terminated!"
-            exit 1
-        fi
-    fi
-
-    if [ "${INFLUXDB_DEFAULT_DB_USER}" == "**None**" ]; then
-        echo "=> No default database user supplied: no user will be created."
-    else
-        curl -s "http://localhost:8086/db/${INFLUXDB_DEFAULT_DB_NAME}/users?u=root&p=${INFLUXDB_ROOT_PASSWORD}" | grep -q "\"name\":\"${INFLUXDB_DEFAULT_DB_USER}\""
+        curl -s "http://localhost:8086/db?u=root&p=${INFLUXDB_ROOT_PASSWORD}" | grep -q "\"name\":\"$db_to_create\""
         if [ $? -eq 0 ]; then
-            echo "=> User \"${INFLUXDB_DEFAULT_DB_USER}\" already exists: nothing to do."
+            echo "=> Database \"$db_to_create\" already exists: nothing to do."
         else
-            if [ "${INFLUXDB_DEFAULT_DB_PASSWORD}" == "**None**" ]; then
-                echo "=> You must specify a password in INFLUXDB_DEFAULT_DB_PASSWORD env variable!"
-                echo "=> Program terminated!"
-                exit 1
-            fi
-            echo "=> Creating user: ${INFLUXDB_DEFAULT_DB_USER}"
-            STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "http://localhost:8086/db/${INFLUXDB_DEFAULT_DB_NAME}/users?u=root&p=${INFLUXDB_ROOT_PASSWORD}" -d "{\"name\":\"${INFLUXDB_DEFAULT_DB_USER}\", \"password\":\"${INFLUXDB_DEFAULT_DB_PASSWORD}\"}")
-            if test $STATUS -eq 200; then
-                echo "=> User \"${INFLUXDB_DEFAULT_DB_USER}\" successfully created."
-                STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "http://localhost:8086/db/${INFLUXDB_DEFAULT_DB_NAME}/users/${INFLUXDB_DEFAULT_DB_USER}?u=root&p=${INFLUXDB_ROOT_PASSWORD}" -d "{\"admin\":true}")
-                if test $STATUS -ne 200; then
-                    echo "=> Failed to give admin rights to user: ${INFLUXDB_DEFAULT_DB_USER}"
-                fi
+            echo "=> Creating database: $db_to_create"
+            STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "http://localhost:8086/db?u=root&p=${INFLUXDB_ROOT_PASSWORD}" -d "{\"name\":\"$db_to_create\"}")
+            if test $STATUS -eq 201; then
+                echo "=> Database \"$db_to_create\" successfully created."
             else
-                echo "=> Failed to create user \"${INFLUXDB_DEFAULT_DB_USER}\"!"
+                echo "=> Failed to create database \"$db_to_create\"!"
                 echo "=> Program terminated!"
                 exit 1
             fi
         fi
+
+        if [ "${INFLUXDB_DEFAULT_DB_USER}" == "**None**" ]; then
+            echo "=> No default database user supplied: no user will be created."
+        else
+            curl -s "http://localhost:8086/db/$db_to_create/users?u=root&p=${INFLUXDB_ROOT_PASSWORD}" | grep -q "\"name\":\"$db_to_create\""
+            if [ $? -eq 0 ]; then
+                echo "=> User \"${INFLUXDB_DEFAULT_DB_USER}\" already exists: nothing to do."
+            else
+                if [ "${INFLUXDB_DEFAULT_DB_PASSWORD}" == "**None**" ]; then
+                    echo "=> You must specify a password in INFLUXDB_DEFAULT_DB_PASSWORD env variable!"
+                    echo "=> Program terminated!"
+                    exit 1
+                fi
+                echo "=> Creating user: ${INFLUXDB_DEFAULT_DB_USER}"
+                STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "http://localhost:8086/db/$db_to_create/users?u=root&p=${INFLUXDB_ROOT_PASSWORD}" -d "{\"name\":\"${INFLUXDB_DEFAULT_DB_USER}\", \"password\":\"${INFLUXDB_DEFAULT_DB_PASSWORD}\"}")
+                if test $STATUS -eq 200; then
+                    echo "=> User \"${INFLUXDB_DEFAULT_DB_USER}\" successfully created."
+                    STATUS=$(curl -X POST -s -o /dev/null -w "%{http_code}" "http://localhost:8086/db/$db_to_create/users/${INFLUXDB_DEFAULT_DB_USER}?u=root&p=${INFLUXDB_ROOT_PASSWORD}" -d "{\"admin\":true}")
+                    if test $STATUS -ne 200; then
+                        echo "=> Failed to give admin rights to user: ${INFLUXDB_DEFAULT_DB_USER}"
+                    fi
+                else
+                    echo "=> Failed to create user \"${INFLUXDB_DEFAULT_DB_USER}\"!"
+                    echo "=> Program terminated!"
+                    exit 1
+                fi
+            fi
+        fi
     fi
-fi
+done
 
 fg
