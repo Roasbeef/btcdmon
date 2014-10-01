@@ -1,4 +1,4 @@
-ROM ubuntu:trusty
+FROM ubuntu:trusty
 
 RUN apt-get update && \
     apt-get install -y nginx && \
