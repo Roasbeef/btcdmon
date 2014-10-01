@@ -90,8 +90,7 @@ for db_to_create in "${dbs_to_create[@]}"; do
                     fi
                 else
                     echo "=> Failed to create user \"${INFLUXDB_DEFAULT_DB_USER}\"!"
-                    echo "=> Program terminated!"
-                    exit 1
+                    continue
                 fi
             fi
         fi
