@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GRAFANA_VER=grafana-1.8.0-rc1
+GRAFANA_VER=grafana-1.8.1
 GRAFANA_PKG=$GRAFANA_VER.tar.gz
 GRAFANA_URL=http://grafanarel.s3.amazonaws.com/$GRAFANA_PKG
 
