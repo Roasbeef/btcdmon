@@ -1,0 +1,1538 @@
+{
+  "id": null,
+  "title": "btcdmon",
+  "originalTitle": "btcdmon",
+  "tags": [],
+  "style": "light",
+  "timezone": "browser",
+  "editable": true,
+  "hideControls": false,
+  "rows": [
+    {
+      "title": "Blockchain Stats",
+      "height": "250px",
+      "editable": true,
+      "collapse": false,
+      "panels": [
+        {
+          "id": 4,
+          "span": 12,
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "none",
+            "short"
+          ],
+          "grid": {
+            "max": null,
+            "min": null,
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 1,
+          "linewidth": 2,
+          "points": true,
+          "pointradius": 5,
+          "bars": false,
+          "stack": true,
+          "spyable": true,
+          "options": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": false,
+            "current": true,
+            "total": false,
+            "avg": false
+          },
+          "interactive": true,
+          "legend_counts": true,
+          "timezone": "browser",
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "target": "randomWalk('random walk')",
+              "function": "mean",
+              "column": "value",
+              "interval": "",
+              "series": "f",
+              "query": "select best_height from blocks where $timeFilter group by time($interval)",
+              "rawQuery": true
+            }
+          ],
+          "aliasColors": {},
+          "aliasYAxis": {},
+          "title": "Main Chain Height",
+          "datasource": "graphite",
+          "renderer": "flot",
+          "annotate": {
+            "enable": false
+          },
+          "seriesOverrides": []
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 14,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "bytes"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": true,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": true,
+            "max": true,
+            "current": false,
+            "total": false,
+            "avg": true
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "series": "f",
+              "query": "select size from processed_blocks where $timeFilter group by time($interval)",
+              "rawQuery": true,
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select num_tx from processed_blocks where $timeFilter group by time($interval)"
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [
+            {
+              "alias": "processed_blocks.size",
+              "yaxis": 2
+            }
+          ],
+          "title": "Block Sizes"
+        }
+      ]
+    },
+    {
+      "title": "Mempool",
+      "height": "250px",
+      "editable": true,
+      "collapse": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 5,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "bytes"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 2,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": true,
+            "current": true,
+            "total": false,
+            "avg": false
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": true,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "series": "f",
+              "query": "select num_tx from mempool where $timeFilter group by time($interval)",
+              "rawQuery": true,
+              "interval": "1m"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select size from mempool where $timeFilter group by time($interval)"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select num_orphans from mempool where $timeFilter group by time($interval)"
+            }
+          ],
+          "aliasColors": {
+            "mempool.num_tx": "#0A50A1",
+            "mempool.num_orphans": "#F2C96D",
+            "mempool.size": "#508642"
+          },
+          "seriesOverrides": [
+            {
+              "alias": "mempool.size",
+              "yaxis": 2
+            }
+          ],
+          "title": "Mempool",
+          "leftYAxisLabel": "Num Tx vs Size"
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 17,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": true,
+            "current": true,
+            "total": true,
+            "avg": true
+          },
+          "percentage": true,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(inv_known) from msg_sent where $timeFilter and inv_known = 1 group by time($interval) ",
+              "interval": "1h",
+              "alias": "skipped_inv"
+            },
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(inv) from msg_sent where $timeFilter and inv = 1 group by time($interval) ",
+              "alias": "sent_inv",
+              "interval": "1h"
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [
+            {
+              "alias": "skipped_inv",
+              "yaxis": 2
+            }
+          ],
+          "title": "Smart TX Relay (Skipped Invs)"
+        }
+      ]
+    },
+    {
+      "title": "Bandwidth",
+      "height": "250px",
+      "editable": true,
+      "collapse": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "graph",
+          "id": 6,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "bytes",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": true,
+            "max": true,
+            "current": false,
+            "total": true,
+            "avg": true
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT DERIVATIVE(bytes_recv) as recv FROM bandwidth where $timeFilter group by time($interval)",
+              "interval": ""
+            }
+          ],
+          "aliasColors": {
+            "bandwidth.recv": "#1F78C1"
+          },
+          "seriesOverrides": [],
+          "title": "Bytes Received",
+          "leftYAxisLabel": "Bytes/Second"
+        },
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "graph",
+          "id": 7,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "bytes",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": true,
+            "max": true,
+            "current": false,
+            "total": true,
+            "avg": true
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT DERIVATIVE(bytes_sent) as sent FROM bandwidth where $timeFilter group by time($interval)",
+              "interval": ""
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [],
+          "title": "Bytes Sent",
+          "leftYAxisLabel": "Bytes/Second"
+        }
+      ]
+    },
+    {
+      "title": "P2P Messages",
+      "height": "250px",
+      "editable": true,
+      "collapse": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "graph",
+          "id": 11,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": false,
+            "current": false,
+            "total": false,
+            "avg": false
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(inv) FROM msg_recv where inv = 1 and $timeFilter group by time($interval)",
+              "interval": "",
+              "alias": "inv"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(block) FROM msg_recv where block = 1 and $timeFilter group by time($interval)",
+              "alias": "block",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(version) FROM msg_recv where version = 1 and $timeFilter group by time($interval)",
+              "alias": "version",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "series": "SELECT COUNT(version) FROM msg_recv where version = 1 and $timeFilter group by time($interval)",
+              "query": "SELECT COUNT(verack) FROM msg_recv where verack = 1 and $timeFilter group by time($interval)",
+              "rawQuery": true,
+              "alias": "verack",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(getdata) FROM msg_recv where getdata = 1 and $timeFilter group by time($interval)",
+              "alias": "getdata",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(getblocks) FROM msg_recv where getblocks = 1 and $timeFilter group by time($interval)",
+              "alias": "getblocks",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(getheaders) FROM msg_recv where getheaders = 1 and $timeFilter group by time($interval)",
+              "alias": "getheaders",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(tx) FROM msg_recv where tx = 1 and $timeFilter group by time($interval)",
+              "alias": "tx",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(block) FROM msg_recv where block = 1 and $timeFilter group by time($interval)",
+              "alias": "block",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(getaddr) FROM msg_recv where getaddr = 1 and $timeFilter group by time($interval)",
+              "interval": "",
+              "alias": "getaddr"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(ping) FROM msg_recv where ping = 1 and $timeFilter group by time($interval)",
+              "alias": "ping",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(mempool) FROM msg_recv where mempool = 1 and $timeFilter group by time($interval)",
+              "alias": "mempool",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(filterload) FROM msg_recv where filterload = 1 and $timeFilter group by time($interval)",
+              "alias": "filterload",
+              "interval": ""
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [],
+          "title": "P2P Messages Recieved Per Min"
+        },
+        {
+          "error": false,
+          "span": 6,
+          "editable": true,
+          "type": "graph",
+          "id": 12,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": false,
+            "current": false,
+            "total": false,
+            "avg": false
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(inv) FROM msg_sent where inv = 1 and $timeFilter group by time($interval)",
+              "interval": "",
+              "alias": "inv"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(version) FROM msg_sent where version = 1 and $timeFilter group by time($interval)",
+              "alias": "version",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "series": "SELECT COUNT(version) FROM msg_recv where version = 1 and $timeFilter group by time($interval)",
+              "query": "SELECT COUNT(verack) FROM msg_sent where verack = 1 and $timeFilter group by time($interval)",
+              "rawQuery": true,
+              "alias": "verack",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(getdata) FROM msg_sent where getdata = 1 and $timeFilter group by time($interval)",
+              "alias": "getdata",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(tx) FROM msg_sent where tx = 1 and $timeFilter group by time($interval)",
+              "alias": "tx",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(block) FROM msg_sent where block = 1 and $timeFilter group by time($interval)",
+              "alias": "block",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(ping) FROM msg_sent where ping = 1 and $timeFilter group by time($interval)",
+              "alias": "ping",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(block) FROM msg_sent where block = 1 and $timeFilter group by time($interval)",
+              "alias": "block",
+              "interval": "",
+              "hide": false
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(pong) FROM msg_sent where pong = 1 and $timeFilter group by time($interval)",
+              "alias": "pong"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(merkle_block) FROM msg_sent where merkle_block = 1 and $timeFilter group by time($interval)",
+              "alias": "merkle_block"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(addr) FROM msg_sent where addr = 1 and $timeFilter group by time($interval)",
+              "alias": "addr",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(merkle) FROM msg_sent where merkle = true and $timeFilter group by time($interval)",
+              "alias": "merkle_tx",
+              "interval": ""
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [],
+          "title": "P2P Messages Sent Per Min"
+        }
+      ]
+    },
+    {
+      "title": "Peers & Addrs",
+      "height": "250px",
+      "editable": true,
+      "collapse": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 8,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 1,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": true,
+            "current": true,
+            "total": false,
+            "avg": true
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": true,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "series": "f",
+              "query": "select total_connected from peers where $timeFilter group by time($interval)",
+              "rawQuery": true,
+              "interval": "1s",
+              "alias": "Num Connected"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "series": "select num_addrs from peers where $timeFilter group by time($interval)",
+              "query": "select DISTINCT(num_addrs) from peers where $timeFilter group by time($interval)",
+              "rawQuery": true,
+              "interval": "",
+              "alias": "Total Addrs"
+            }
+          ],
+          "aliasColors": {
+            "peers.distinct": "#C15C17",
+            "peers.total_connected": "#0A50A1",
+            "Total Addrs": "#C15C17"
+          },
+          "seriesOverrides": [
+            {
+              "alias": "peers.num_addrs",
+              "yaxis": 2
+            },
+            {
+              "alias": "peers.distinct",
+              "yaxis": 2
+            },
+            {
+              "alias": "Total Addrs",
+              "yaxis": 2
+            }
+          ],
+          "title": "Peers"
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 10,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": true,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": false,
+            "min": false,
+            "max": false,
+            "current": false,
+            "total": false,
+            "avg": false
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers where user_agent = '/getaddr.bitnodes.io:0.1/' and $timeFilter group by time($interval)",
+              "interval": "",
+              "alias": "/getaddr.bitnodes.io:0.1/"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers where user_agent = '/bitcoin-seeder:0.01/' and $timeFilter group by time($interval)",
+              "alias": "/bitcoin-seeder:0.01/",
+              "interval": ""
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [],
+          "title": "Seeder Crawls"
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 9,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "none",
+            "none"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": false,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": true,
+          "stack": true,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": false,
+            "current": false,
+            "total": true,
+            "avg": false,
+            "alignAsTable": false
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "individual",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "series": "f",
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent = '/getaddr.bitnodes.io:0.1/' and $timeFilter",
+              "rawQuery": true,
+              "interval": "",
+              "alias": "/getaddr.bitnodes.io:0.1/"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent = '/bitcoin-seeder:0.01/' and $timeFilter",
+              "interval": "",
+              "alias": "/bitcoin-seeder:0.01/"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "series": "select COUNT(user_agent) from peers group by time(5m) where user_agent = '/Snoopy:0.1/' and $timeFilter",
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent = '/Snoopy:0.1/' and $timeFilter",
+              "rawQuery": true,
+              "alias": "/Snoopy:0.1/"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent =~ /Satoshi:0.9.*/ and $timeFilter",
+              "alias": "/Satoshi:0.9.*/",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent =~ /Satoshi:0.8.*/ and $timeFilter",
+              "alias": "/Satoshi:0.8.*/"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent = '/BitCoinJ:0.11.3/Bitcoin Wallet:3.59/' and $timeFilter",
+              "alias": "/BitCoinJ:0.11.3/Bitcoin Wallet:3.59/"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent = '/BitCoinJ:0.11.2/MultiBit:0.5.18/' and $timeFilter",
+              "alias": "/BitCoinJ:0.11.2/MultiBit:0.5.18/"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "series": "select COUNT(user_agent) from peers group by time(5m) where user_agent =~ /Satoshi:0.8.*/ and $timeFilter",
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent =~ /Satoshi:0.7.*/ and $timeFilter",
+              "rawQuery": true,
+              "alias": "/Satoshi:0.7.*/"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers group by time($interval) where user_agent =~ /Satoshi:0.6.*/ and $timeFilter",
+              "alias": "/Satoshi:0.6.*/",
+              "interval": ""
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [
+            {
+              "alias": "peers.user_agent",
+              "yaxis": 1
+            }
+          ],
+          "title": "Inbound User Agents 5 Min Interval",
+          "leftYAxisLabel": "Num Seen/ 5 mins"
+        }
+      ]
+    },
+    {
+      "title": "TX Stats",
+      "height": "250px",
+      "editable": true,
+      "collapse": true,
+      "panels": [
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 15,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 1,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": true,
+            "current": false,
+            "total": false,
+            "avg": false
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT COUNT(is_dust) from tx_outputs where is_dust = true and $timeFilter group by time($interval)",
+              "interval": "",
+              "alias": "is_dust"
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [],
+          "title": "Dust Watch"
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 16,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 1,
+          "linewidth": 1,
+          "points": true,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": false,
+            "current": true,
+            "total": false,
+            "avg": true
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "individual",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select MEAN(value) from tx_outputs where $timeFilter group by time(1h)",
+              "alias": "Mean Spent Outputs",
+              "interval": "1h"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(value) from tx_outputs where $timeFilter group by time(1h)",
+              "alias": "Num Transactions",
+              "interval": "1h"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select MODE(value) from tx_outputs where $timeFilter group by time(1h)",
+              "alias": "Most Common Output Size",
+              "interval": "1h"
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [
+            {
+              "alias": "num txs",
+              "yaxis": 2
+            },
+            {
+              "alias": "Num Transactions",
+              "yaxis": 2
+            }
+          ],
+          "title": "TX Stats",
+          "leftYAxisLabel": "BTC"
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 13,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "bytes",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 1,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": false,
+            "min": false,
+            "max": false,
+            "current": false,
+            "total": false,
+            "avg": false
+          },
+          "percentage": true,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "individual",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.5",
+              "interval": "",
+              "alias": "5th"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.10",
+              "alias": "10th",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.20",
+              "alias": "20th"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.30",
+              "alias": "30th"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.40",
+              "alias": "40th"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.50",
+              "alias": "50th"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.60",
+              "alias": "60th",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.70",
+              "alias": "70th"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.80",
+              "alias": "80th",
+              "interval": ""
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.90",
+              "alias": "90th"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "SELECT percentile from tx.tx_size.percentiles.1d.95",
+              "alias": "95th",
+              "interval": ""
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [],
+          "title": "TX Size Percentile"
+        }
+      ]
+    }
+  ],
+  "nav": [
+    {
+      "type": "timepicker",
+      "collapse": false,
+      "enable": true,
+      "status": "Stable",
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ],
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "now": true,
+      "notice": false
+    }
+  ],
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [],
+    "enable": false
+  },
+  "annotations": {
+    "list": [],
+    "enable": false
+  },
+  "refresh": false,
+  "version": 6
+}
