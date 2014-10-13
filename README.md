@@ -93,9 +93,11 @@ Here are some example queries:
 
 ##Screenshots
 
-The main dashboard:
+####The main dashboard:
+![alt tag](https://raw.githubusercontent.com/Roasbeef/btcdmon/master/screenshots/admin.png)
 
-The admin interface: 
+####The admin interface: 
+![alt tag](https://raw.githubusercontent.com/Roasbeef/btcdmon/master/screenshots/dashboard.png)
 
 ##Bootstrapped Dashboard
 
