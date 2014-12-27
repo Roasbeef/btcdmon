@@ -23,7 +23,7 @@
           "scale": 1,
           "y_formats": [
             "none",
-            "short"
+            "none"
           ],
           "grid": {
             "max": null,
@@ -75,7 +75,8 @@
               "interval": "",
               "series": "f",
               "query": "select best_height from blocks where $timeFilter group by time($interval)",
-              "rawQuery": true
+              "rawQuery": true,
+              "alias": "best_height"
             }
           ],
           "aliasColors": {},
@@ -86,7 +87,121 @@
           "annotate": {
             "enable": false
           },
-          "seriesOverrides": []
+          "seriesOverrides": [
+            {
+              "alias": "tx_fees",
+              "yaxis": 2
+            }
+          ]
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 20,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "none",
+            "none"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": true,
+            "current": true,
+            "total": true,
+            "avg": true
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select sum(total_tx_fees) from processed_blocks where $timeFilter group by time($interval)",
+              "alias": "Total Tx Fees Per Hour",
+              "interval": "1h"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select count(total_tx_fees) from processed_blocks where $timeFilter group by time($interval)",
+              "interval": "1h",
+              "alias": "Blocks Per Hour"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select stddev(total_tx_fees) from processed_blocks where $timeFilter group by time($interval)",
+              "interval": "1h",
+              "alias": "hour_total.stddev"
+            }
+          ],
+          "aliasColors": {
+            "size": "#99440A"
+          },
+          "seriesOverrides": [
+            {
+              "alias": "tx_fees",
+              "yaxis": 1
+            },
+            {
+              "alias": "processed_blocks.mean",
+              "yaxis": 2
+            },
+            {
+              "alias": "processed_blocks.count",
+              "yaxis": 2
+            },
+            {
+              "alias": "Blocks Per Hour",
+              "yaxis": 2
+            },
+            {
+              "alias": "std",
+              "yaxis": 2
+            }
+          ],
+          "title": "Tx Fees Vs. Block Per Hour",
+          "leftYAxisLabel": ""
         },
         {
           "error": false,
@@ -146,7 +261,7 @@
               "function": "mean",
               "column": "value",
               "series": "f",
-              "query": "select size from processed_blocks where $timeFilter group by time($interval)",
+              "query": "select size from processed_blocks where $timeFilter and status = 'accepted' group by time($interval)",
               "rawQuery": true,
               "interval": ""
             },
@@ -155,17 +270,20 @@
               "function": "mean",
               "column": "value",
               "rawQuery": true,
-              "query": "select num_tx from processed_blocks where $timeFilter group by time($interval)"
+              "query": "select num_tx from processed_blocks where $timeFilter and status = 'accepted' group by time($interval) ",
+              "interval": ""
             }
           ],
-          "aliasColors": {},
+          "aliasColors": {
+            "processed_blocks.size": "#1F78C1"
+          },
           "seriesOverrides": [
             {
               "alias": "processed_blocks.size",
               "yaxis": 2
             }
           ],
-          "title": "Block Sizes"
+          "title": "Block Size Vs. Tx Per Block"
         }
       ]
     },
@@ -311,7 +429,7 @@
             "total": true,
             "avg": true
           },
-          "percentage": true,
+          "percentage": false,
           "zerofill": true,
           "nullPointMode": "connected",
           "steppedLine": false,
@@ -341,7 +459,11 @@
           "seriesOverrides": [
             {
               "alias": "skipped_inv",
-              "yaxis": 2
+              "yaxis": 1
+            },
+            {
+              "alias": "sent_inv",
+              "yaxis": 1
             }
           ],
           "title": "Smart TX Relay (Skipped Invs)"
@@ -975,7 +1097,7 @@
           "lines": true,
           "fill": 0,
           "linewidth": 1,
-          "points": true,
+          "points": false,
           "pointradius": 5,
           "bars": false,
           "stack": false,
@@ -1002,7 +1124,7 @@
               "column": "value",
               "rawQuery": true,
               "query": "select COUNT(user_agent) from peers where user_agent = '/getaddr.bitnodes.io:0.1/' and $timeFilter group by time($interval)",
-              "interval": "",
+              "interval": "1h",
               "alias": "/getaddr.bitnodes.io:0.1/"
             },
             {
@@ -1012,12 +1134,21 @@
               "rawQuery": true,
               "query": "select COUNT(user_agent) from peers where user_agent = '/bitcoin-seeder:0.01/' and $timeFilter group by time($interval)",
               "alias": "/bitcoin-seeder:0.01/",
-              "interval": ""
+              "interval": "1h"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(user_agent) from peers where user_agent = '/Snoopy:0.1/' and $timeFilter group by time($interval)",
+              "alias": "/Snoopy:0.1/",
+              "interval": "1h"
             }
           ],
           "aliasColors": {},
           "seriesOverrides": [],
-          "title": "Seeder Crawls"
+          "title": "Seeder Crawls Per Hour Interval"
         },
         {
           "error": false,
@@ -1054,7 +1185,7 @@
           "points": false,
           "pointradius": 5,
           "bars": true,
-          "stack": true,
+          "stack": false,
           "legend": {
             "show": true,
             "values": true,
@@ -1176,6 +1307,188 @@
           "span": 12,
           "editable": true,
           "type": "graph",
+          "id": 19,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": false,
+            "min": false,
+            "max": false,
+            "current": false,
+            "total": false,
+            "avg": false
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(script_type) from tx_outputs where script_type = 'scripthash' and $timeFilter group by time($interval)",
+              "interval": "1h",
+              "alias": "P2SH"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(script_type) from tx_outputs where script_type = 'nulldata' and $timeFilter group by time($interval)",
+              "alias": "OP_RETURN",
+              "interval": "1h"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select COUNT(script_type) from tx_outputs where script_type = 'multisig' and $timeFilter group by time($interval) ",
+              "interval": "1h",
+              "alias": "Bare Multisig"
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [],
+          "title": "Non P2PKH Outputs By The Hour"
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
+          "id": 18,
+          "datasource": null,
+          "renderer": "flot",
+          "x-axis": true,
+          "y-axis": true,
+          "scale": 1,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "grid": {
+            "leftMax": null,
+            "rightMax": null,
+            "leftMin": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold2": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "annotate": {
+            "enable": false
+          },
+          "resolution": 100,
+          "lines": true,
+          "fill": 0,
+          "linewidth": 1,
+          "points": false,
+          "pointradius": 5,
+          "bars": false,
+          "stack": false,
+          "legend": {
+            "show": true,
+            "values": true,
+            "min": false,
+            "max": false,
+            "current": true,
+            "total": false,
+            "avg": false
+          },
+          "percentage": false,
+          "zerofill": true,
+          "nullPointMode": "connected",
+          "steppedLine": false,
+          "tooltip": {
+            "value_type": "cumulative",
+            "query_as_alias": true
+          },
+          "targets": [
+            {
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select MODE(tx_fee) from tx_fees where $timeFilter group by time(1h)",
+              "alias": "Most Common Fee"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select MEAN(tx_fee) from tx_fees where $timeFilter group by time(1h)",
+              "alias": "Average Fee"
+            },
+            {
+              "target": "",
+              "function": "mean",
+              "column": "value",
+              "rawQuery": true,
+              "query": "select MAX(tx_fee) from tx_fees where $timeFilter group by time(1h)",
+              "alias": "Max TX Fee (Decimal Place error :p)"
+            }
+          ],
+          "aliasColors": {},
+          "seriesOverrides": [
+            {
+              "alias": "tx_fees.max",
+              "yaxis": 2
+            },
+            {
+              "alias": "Max TX Fee (Decimal Place error :p)",
+              "yaxis": 2
+            },
+            {
+              "alias": "Average Fee",
+              "yaxis": 1
+            }
+          ],
+          "title": "Transaction Fees By The Hour",
+          "leftYAxisLabel": "Satoshis"
+        },
+        {
+          "error": false,
+          "span": 12,
+          "editable": true,
+          "type": "graph",
           "id": 15,
           "datasource": null,
           "renderer": "flot",
@@ -1270,7 +1583,7 @@
           "lines": true,
           "fill": 1,
           "linewidth": 1,
-          "points": true,
+          "points": false,
           "pointradius": 5,
           "bars": false,
           "stack": false,
@@ -1297,7 +1610,7 @@
               "function": "mean",
               "column": "value",
               "rawQuery": true,
-              "query": "select MEAN(value) from tx_outputs where $timeFilter group by time(1h)",
+              "query": "select MEAN(value) from tx_outputs where $timeFilter group by time($interval)",
               "alias": "Mean Spent Outputs",
               "interval": "1h"
             },
@@ -1306,7 +1619,7 @@
               "function": "mean",
               "column": "value",
               "rawQuery": true,
-              "query": "select COUNT(value) from tx_outputs where $timeFilter group by time(1h)",
+              "query": "select COUNT(value) from tx_outputs where $timeFilter group by time($interval)",
               "alias": "Num Transactions",
               "interval": "1h"
             },
@@ -1315,7 +1628,7 @@
               "function": "mean",
               "column": "value",
               "rawQuery": true,
-              "query": "select MODE(value) from tx_outputs where $timeFilter group by time(1h)",
+              "query": "select MODE(value) from tx_outputs where $timeFilter group by time($interval)",
               "alias": "Most Common Output Size",
               "interval": "1h"
             }
@@ -1331,7 +1644,7 @@
               "yaxis": 2
             }
           ],
-          "title": "TX Stats",
+          "title": "Transaction Outputs",
           "leftYAxisLabel": "BTC"
         },
         {
@@ -1522,7 +1835,7 @@
     }
   ],
   "time": {
-    "from": "now-24h",
+    "from": "now-5m",
     "to": "now"
   },
   "templating": {
