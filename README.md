@@ -41,7 +41,7 @@ SSHing into your box and refreshing your node's logs or poking it with `getinfo`
 Running, linking, and managing the system is simple due its dockerization. 
 
 1. First, we'll get the backend up and running:
-   * ``` $docker run -d --name influxdb -v /home/influxdb/data:/data -p 4444:444/udp btcdmon-influxdb```
+   * ``` $docker run -d --name influxdb -v /home/influxdb/data:/data -p 4444:4444/udp btcdmon-influxdb```
    * If it doesn't start up intially, there might be something wrong with your configuration. You can start up the container in interactive mode by passing `-i -t` for arguments instead of `-d` to aide with debugging. 
 2. Next, lets fire up our frontend:
    * ```$ docker run -d --name nginx -p 80:80 -p 443 --link influxdb:influxdb btcdmon-nginx```
