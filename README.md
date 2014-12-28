@@ -3,7 +3,7 @@ btcdmon
 ####A drop-in monitoring solution for your partial view of the Bitcoin P2P network!
 
 ##What is this?
-`btcdmon` is a drop-in, dockerzied monitoring/metric-collection solution for induvidual nodes within the Bitcoin distributed system. With this system, you'll be able to closely monitor the health, status, and behavioral patterns of your ```btcd``` node(s) and subsequently the Bitcoin network as a whole. 
+`btcdmon` is a drop-in, dockerzied monitoring/metric-collection solution for individual nodes within the Bitcoin distributed system. With this system, you'll be able to closely monitor the health, status, and behavioral patterns of your ```btcd``` node(s) and subsequently the Bitcoin network as a whole. 
 
 btcdmon only supports [btcd](https://github.com/conformal/btcd): an alternative full node bitcoin implementation written in Go written, and maintained by [conformal](https://www.conformal.com/). If you're looking for a similar system, but for a Bitcoin Core node instead, then you should check out [statoshi](https://github.com/jlopp/statoshi). Although, `btcdmon` differs from statoshi in many ways.
 
@@ -105,4 +105,4 @@ It can take some time to learn how to use the Grafana interface, InfluxDB querie
 
 ##Future work
 
-Something, something, alerts, precomputed queries, TCP listeners for exporting metrics to centralized server monitoring a fleet of nodes. 
+Something, something, alerts, precomputed queries, TCP listeners for exporting metrics to central server monitoring a fleet of nodes. 
