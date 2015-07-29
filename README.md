@@ -25,7 +25,7 @@ SSHing into your box and refreshing your node's logs or poking it with `getinfo`
      * ```$ git clone https://github.com/Roasbeef/btcd```
      * ```$ cd btcd```
    * Next up, installing the node. You can either install the node as a docker application (via the provided [dockerfile](https://github.com/Roasbeef/btcd/blob/btcdmon/Dockerfile) or directly unto the host system. 
-     * Docker: ```$ docker build -t="give_it_a_name" .```
+     * Docker: ```$ docker build --rm -t="give_it_a_name" .```
      * Raw installation: ```$ go build```
         * Notice we don't simply `go get ...` to install the node. This is because `go get` defaults to grabbing the master branch, whereas we are interested in a certain branch. 
    * Once installed you'll need to add some additional parameters to the [`btcd.conf`](https://github.com/Roasbeef/btcd/blob/btcdmon/sample-btcd.conf) file in order to get your node up and running: `btcdmonuser, btcdmonhost, and btcdmonpass`. `btcdmonuser` and `btcdmonpass` are the credentials we need to access the InfluxDB api to export our metrics, you'll choose them shortly below. `btcdmonhost` is the hostname or IP of the machine you'd like to run the backend on. 
