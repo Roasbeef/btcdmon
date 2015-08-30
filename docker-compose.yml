@@ -8,7 +8,7 @@ grafana:
 influxdb:
   build: influxdb/
   ports:
-   - "8086"
+   - "8086:8086"
   expose:
    - "8083"
   volumes:
