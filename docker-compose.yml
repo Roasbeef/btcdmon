@@ -7,9 +7,10 @@ grafana:
    - ~/.btcdmon/var/lib/grafana:/var/lib/grafana
 influxdb:
   build: influxdb/
+  ports:
+   - "8086"
   expose:
    - "8083"
-   - "8086"
   volumes:
    - ~/.btcdmon/data:/data
 nginx:
