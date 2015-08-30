@@ -1,9 +1,10 @@
 FROM debian:wheezy
  
+RUN apt-get update && apt-get install -y curl && apt-get clean && rm -rf /var/lib/apt/lists
+
 # Install InfluxDB
-RUN apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends curl ca-certificates && \
-  curl -s -o /tmp/influxdb_latest_amd64.deb https://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb && \
+ENV INFLUXDB_VERSION 0.9.2.1
+RUN curl -s -o /tmp/influxdb_latest_amd64.deb https://s3.amazonaws.com/influxdb/influxdb_${INFLUXDB_VERSION}_amd64.deb && \
   dpkg -i /tmp/influxdb_latest_amd64.deb && \
   rm /tmp/influxdb_latest_amd64.deb && \
   rm -rf /var/lib/apt/lists/*
@@ -12,10 +13,12 @@ ADD config.toml /config/config.toml
 ADD run.sh /run.sh
 RUN chmod +x /*.sh
 
-ENV INFLUXDB_DEFAULT_DB_NAME btcd
-ENV INFLUXDB_DEFAULT_DB_USER btcdmon
-ENV INFLUXDB_DEFAULT_DB_PASSWORD **None**
-ENV INFLUXDB_ROOT_PASSWORD **ChangeMe**
+ENV ADMIN_USER **CHANGE ME**
+ENV PASS **CHANGE ME**
+ENV PRE_CREATE_DB btcdmon
+
+ENV SSL_SUPPORT **False**
+ENV SSL_CERT **None**
 
 # Admin server
 EXPOSE 8083
