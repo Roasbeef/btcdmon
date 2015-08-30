@@ -1,0 +1,24 @@
+grafana:
+  build: grafana/
+  expose:
+   - "3000"
+  volumes:
+   - ~/.btcdmon/var/log/grafana:/var/log/grafana
+   - ~/.btcdmon/var/lib/grafana:/var/lib/grafana
+influxdb:
+  build: influxdb/
+  expose:
+   - "8083"
+   - "8086"
+  volumes:
+   - ~/.btcdmon/data:/data
+nginx:
+  build: nginx/
+  ports:
+   - "80:80"
+   - "443:443"
+  volumes:
+   - ~/.btcdmon/var/log/nginx:/var/log/nginx
+  links:
+   - grafana
+   - influxdb
