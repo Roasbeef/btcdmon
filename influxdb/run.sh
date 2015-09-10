@@ -50,7 +50,7 @@ fi
 echo "influxdb configuration: "
 cat ${CONFIG_FILE}
 echo "=> Starting InfluxDB ..."
-exec /opt/influxdb/influxd -config=${CONFIG_FILE} 2>/data/influxb.log &
+exec /opt/influxdb/influxd -config=${CONFIG_FILE} 2>/data/influxdb.log &
 
 # Pre create database on the initiation of the container
 if [ -n "${PRE_CREATE_DB}" ]; then
